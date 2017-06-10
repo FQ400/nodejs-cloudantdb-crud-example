@@ -7,7 +7,7 @@ URL: https://lutz-data-reader.eu-gb.mybluemix.net/
 
 # Deploy Lutz Data Reader
 
-`cf push "Lutz Data Reader"`
+`cf push "Lutz Data Reader" -f manifest.yml`
 
 
 

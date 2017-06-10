@@ -29,7 +29,7 @@ if(process.env.VCAP_SERVICES)
 //Connect using cloudant npm and URL obtained from previous step
 var cloudant = Cloudant({url: cloudant_url});
 //Edit this variable value to change name of database.
-var dbname = 'names_database';
+var dbname = 'mydb';
 var db;
 
 //Create database
@@ -49,9 +49,9 @@ cloudant.db.create(dbname, function(err, data) {
     //This view returns (i.e. emits) the id, revision number and new_city_name variable of all documents in the DB
   	db.insert(
 	 {
-		  	_id: "_design/names_database",
+		  	_id: "_design/mydb",
 		    views: {
-	  				  "names_database":
+	  				  "mydb":
 	  				   {
 	      					"map": "function (doc) {\n  emit(doc._id, [doc._rev, doc.new_name]);\n}"
 	    			   }
@@ -61,7 +61,7 @@ cloudant.db.create(dbname, function(err, data) {
 	    	if(err)
 	    			console.log("View already exsits. Error: ", err); //NOTE: A View can be created through the GUI interface as well
 	    	else
-	    		console.log("names_database view has been created");
+	    		console.log("mydb view has been created");
 	 });
 
 });
@@ -84,7 +84,7 @@ cloudant.db.create(dbname, function(err, data) {
 
 app.get('/fill_remove_update_names_dropdown', function(req, res){
 	console.log("To fill 'Update Names' and 'Remove Names' dropdown");
-	var url = cloudant_url + "/names_database/_design/names_database/_view/names_database";
+	var url = cloudant_url + "/mydb/_design/mydb/_view/mydb";
 	request({
 			 url: url, //'request' makes a call to API URL which in turn returns a JSON to the variable 'body'
 			 json: true
@@ -127,7 +127,7 @@ app.get('/download_csv', function(req, res){
 //To update the 'Read Names' list
 app.get('/view_names',function(req, res){
 	var json_string_for_csv_conversion = new Array();
-	var url = cloudant_url + "/names_database/_design/names_database/_view/names_database";
+	var url = cloudant_url + "/mydb/_design/mydb/_view/mydb";
 	request({
 			 url: url, //'request' makes a call to API URL which in turn returns a JSON to the variable 'body'
 			 json: true
@@ -195,7 +195,7 @@ app.get('/add_name',function(req, res){ //to add a city into the database
 	req.query.new_name = req.query.new_name.trim();
 
 	//Search through the DB completely to check for duplicate name, before adding a new name
-	var url = cloudant_url + "/names_database/_design/names_database/_view/names_database";
+	var url = cloudant_url + "/mydb/_design/mydb/_view/mydb";
 	var name_present = 0; //flag variable for checking if name is already present before inserting
 	var name_string; //variable to store update for front end.
 
@@ -265,7 +265,7 @@ app.get('/update_name',function(req, res){ //to update a city into the database
 	req.query.updated_new_name = req.query.updated_new_name.trim();
 
 	//Search through the DB completely to retrieve document ID and revision number
-	var url = cloudant_url + "/names_database/_design/names_database/_view/names_database";
+	var url = cloudant_url + "/mydb/_design/mydb/_view/mydb";
 	var name_present = 0;
 	request({
 			 url: url, //url returns doc id, revision number and name for each document
@@ -349,7 +349,7 @@ app.get('/update_name',function(req, res){ //to update a city into the database
 app.get('/remove_name',function(req, res){ //to update a city into the database
 	console.log("Name to be removed : = " + req.query.name_to_remove);
 	//Search through the DB completely to retrieve document ID and revision number
-	var url = cloudant_url + "/names_database/_design/names_database/_view/names_database";
+	var url = cloudant_url + "/mydb/_design/mydb/_view/mydb";
 	request({
 			 url: url, //url returns doc id, revision number and name for each document
 			 json: true
@@ -410,6 +410,11 @@ app.get('/remove_name',function(req, res){ //to update a city into the database
 				res.send(JSON.parse(name_string));
 			}
 	});
+
+});
+
+app.get('/url',function(req, res){ //to update a city into the database
+
 
 });
 

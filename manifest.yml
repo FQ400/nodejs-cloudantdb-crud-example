@@ -1,14 +1,12 @@
-declared-services:
-  cloudant-nodejs:
-    label: cloudantNoSQLDB
-    plan: Shared
+
 applications:
 - path: .
   memory: 256M
   instances: 1
-  domain: mybluemix.net
-  name: NodeJSCloudantSampleApp
-  host: NodeJSCloudantSampleApp
+  domain: eu-gb.mybluemix.net
+  name: "Lutz Data Reader"
+  host: Lutz-Data-Reader
   disk_quota: 1024M
+  command: "node app.js"
   services:
-  - cloudant-nodejs
+  - Lutz-cloudantNoSQLDB
