@@ -1,4 +1,19 @@
-# NodeJSCloudantSampleApp Overview
+# Lutz Data Reader
+
+Lutz runs on Cloudant.
+
+URL: https://lutz-data-reader.eu-gb.mybluemix.net/
+
+
+# Deploy Lutz Data Reader
+
+`cf push "Lutz Data Reader"`
+
+
+
+
+
+# Lutz Data Reader Overview
 
 This application uses the [Cloudant NoSQL Database service](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db) to demonstrate the operations of Create, Read, Update and Delete into database using the Node.js runtime. Cloudant node module is used for these operations. They can alternatively be done with API calls which returns a JSON.
 
@@ -14,19 +29,20 @@ This application uses the [Cloudant NoSQL Database service](https://console.ng.b
 
 ## Running the app on Bluemix
 
-* [Sign up][sign_up] for Bluemix. 
+* [Sign up][sign_up] for Bluemix.
 * Download and install Cloud Foundry CLI to be used on the terminal.
 * Fork this project into your Gitub account by clickig on the "Fork Project" button in the top-right hand corner of this page : https://github.com/IBM-Bluemix/nodejs-cloudantdb-crud-example
-* On the Terminal, Connect to Bluemix using the CF CLI and follow the prompts to log in. 
+* On the Terminal, Connect to Bluemix using the CF CLI and follow the prompts to log in.
 * Once you're in the same space as the app, create the Cloudant NoSQL DB service in Bluemix
 ```
-    $cf api https://api.ng.bluemix.net
-    $cf login
+    $cf api https://api.eu-gb.bluemix.net
+    $cf login -u clamm@kontextr.com -o dfrick -s dev
+
     $cf create-service cloudantNoSQLDB Lite <service-name>
 ```
 * Bind this service to your app
 ```
-    $cf bs NodeJSCloudantSampleApp <service-name-as-in-previous-step>
+    $cf bs "Lutz Data Reader" Lutz-cloudantNoSQLDB
 ```
 * Edit the manifest.yml file and change the <application-host> parameter to something unique.
 ```
@@ -49,7 +65,7 @@ This application uses the [Cloudant NoSQL Database service](https://console.ng.b
 ```    	     
 * Start the application by typing
 ```
-    $cf start NodeJSCloudantSampleApp
+    $cf start "Lutz Data Reader"
 ```    
 
 And voila! Your very own instance of Cloudant NoSQL DB with NodeJSCloudantSampleApp is now running on Bluemix.
