@@ -87,9 +87,9 @@ app.get('/url',function(req, res){
 			}, function (error, response, body) {
 		if (!error && response.statusCode === 200)
 		{
-			var tags = JSON.parse(body.docs[0].watsonResult);
+			var tags = JSON.parse(body.docs && body.docs.length > 0 && body.docs[0].watsonResult);
 
-			var entities = tags.entities && tags.entities.map(function(el){
+			var entities = tags && tags.entities && tags.entities.map(function(el){
 				return {
 					text: el.text,
 					relevance: el.relevance,
@@ -109,6 +109,7 @@ app.get('/url',function(req, res){
 });
 
 var appEnv = cfenv.getAppEnv();
+// app.listen(appEnv.port, '0.0.0.0', function() {
 app.listen(appEnv.port, '0.0.0.0', function() {
   console.log("server starting on " + appEnv.url);
 });
